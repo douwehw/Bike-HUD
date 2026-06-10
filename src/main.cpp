@@ -70,7 +70,7 @@ void handleOdometer()
 
 void setup()
 {
-    Serial.begin(115200);
+    Serial.begin(9600);
 
     // Baseline mock data variables
     testState.speedKmh = 0.0;
