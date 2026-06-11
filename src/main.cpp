@@ -92,10 +92,13 @@ void setup()
 
     // Baseline mock data variables
     testState.speedKmh = 0.0;
-    testState.odometerKm = 0;
     testState.batteryPercentage = 100;
     testState.lowBeamOn = false;
     testState.highBeamOn = false;
+
+    // Start peripheral controller and load preferences (which overwrites odometer)
+    pController.init();
+    pController.loadPreferences(testState);
 
     // Bind commands to command handler
     cmdHandler.createCommand('1', increaseSpeed);
@@ -105,9 +108,6 @@ void setup()
 
     // Start display manager
     display.init();
-
-    // Start peripheral controller
-    pController.init();
 
     // 2. Spawn the FreeRTOS Task
     xTaskCreatePinnedToCore(
