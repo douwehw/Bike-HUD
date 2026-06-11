@@ -45,7 +45,7 @@ void cycleBatteryLife()
         testState.batteryPercentage -= 20;
     }
 
-    Serial.printf("Battery percentage: %d\n", testState.batteryPercentage);
+    Serial.printf("Battery percentage: %i\n", testState.batteryPercentage);
 }
 
 void toggleLightState()
@@ -66,11 +66,6 @@ void toggleLightState()
         testState.highBeamOn = false;
         Serial.println("Lights OFF");
     }
-}
-
-void printOdometer()
-{
-    Serial.printf("Odometer state: %d \n", testState.odometerKm);
 }
 
 // 1. Define the FreeRTOS Task Function
@@ -107,7 +102,6 @@ void setup()
     cmdHandler.createCommand('2', decreaseSpeed);
     cmdHandler.createCommand('3', cycleBatteryLife);
     cmdHandler.createCommand('4', toggleLightState);
-    cmdHandler.createCommand('9', printOdometer);
 
     // Start display manager
     display.init();

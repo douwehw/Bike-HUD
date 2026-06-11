@@ -25,14 +25,14 @@ private:
     const uint16_t COLOR_HIGH_BEAM = 0x001F; // Electric Blue
     const uint16_t COLOR_DIMMED = 0x4208;    // Tactical Dark Gray
 
-    // New Scaled Layout Coordinates (320 x 240 Landscape Grid)
-    const int16_t SCREEN_WIDTH = 320;
-    const int16_t SCREEN_HEIGHT = 240;
+    // New Scaled Layout Coordinates (240 x 320 Portrait Grid)
+    const int16_t SCREEN_WIDTH = 240;
+    const int16_t SCREEN_HEIGHT = 320;
 
-    // Render Sub-routines adapted for 320x240
+    // Render Sub-routines adapted for portrait layout
     void drawStaticLayout();
     void drawBatteryIndicator(uint8_t percentage, bool forceRedraw = false);
-    void drawSpeedometerCard(double speed, uint32_t odometer);
+    void drawSpeedometerCard(double speed, float odometer);
     void drawLowBeamIcon(bool active, bool forceRedraw = false);
     void drawHighBeamIcon(bool active, bool forceRedraw = false);
 };
