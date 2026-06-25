@@ -1,11 +1,12 @@
 #include "peripheralcontroller.h"
 
-PeripheralController::PeripheralController(){}
+PeripheralController::PeripheralController() {}
 
 void PeripheralController::init()
 {
     // ADC configuration for battery voltage divider circuit analytics
     analogSetAttenuation(ADC_11db);
+    pinMode(26, INPUT);
 }
 
 void PeripheralController::loadPreferences(TelemetryState &state)
@@ -25,7 +26,41 @@ void PeripheralController::loadPreferences(TelemetryState &state)
 void PeripheralController::readInputs(TelemetryState &state)
 {
     static unsigned long lastTime = 0;
+    static unsigned long lastTriggerTime = 0;
+    static int lastPinState = HIGH;
+
     unsigned long currentTime = millis();
+
+    // Read the hall effect sensor
+    int currentPinState = digitalRead(m_speedometerPin);
+
+    // Detect falling edge (hall effect sensor triggered)
+    if (currentPinState == LOW && lastPinState == HIGH)
+    {
+        // Software debounce
+        if ((currentTime - lastTriggerTime) > m_debounce)
+        {
+            unsigned long rotationTimeMs = currentTime - lastTriggerTime;
+
+            // Calculate speed
+
+            // Speed (m/ms) = circumference / rotationTimeMs
+            // Convert to km/h: (m/ms) * 3600
+            if (rotationTimeMs > 0)
+            {
+                state.speedKmh = (m_circumferenceMeters / rotationTimeMs) * 3600.0f;
+            }
+
+            lastTriggerTime = currentTime;
+        }
+    }
+    lastPinState = currentPinState;
+
+    // Reset speed to 0 if the wheel hasn't completed a rotation in 2 seconds (e.g. stopped)
+    if (currentTime - lastTriggerTime > 2000)
+    {
+        state.speedKmh = 0.0f;
+    }
 
     if (lastTime != 0)
     {

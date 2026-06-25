@@ -22,6 +22,9 @@ private:
     Preferences m_preferences;
     // Track the last value we successfully saved to avoid spamming the flash memory
     float m_lastSavedOdometerKm = 0.0f;
+    uint8_t m_speedometerPin = 26;
+    uint16_t m_debounce = 50;
+    float m_circumferenceMeters = 0.36f * PI * 2.0f;
 };
 
 #endif // PERIPHERAL_CONTROLLER_H
