@@ -2,11 +2,6 @@
 #define TELEMETRY_STATE_H
 
 #include <Arduino.h>
-
-/**
- * @brief Thread-safe plain old data structure (POD) representing
- * the current runtime telemetry state of the bike.
- */
 struct TelemetryState
 {
     double speedKmh = 0.0;

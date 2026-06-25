@@ -1,9 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
-// 1. Defining a Function Pointer Type
-// This creates a custom type called 'CommandCallback'.
-// It represents a pointer to a function that takes no arguments '()' and returns nothing 'void'.
+// This is a pointer to a function that takes no arguments and returns nothing
 typedef void (*CommandCallback)();
 
 class SerialCommandHandler
@@ -11,19 +9,17 @@ class SerialCommandHandler
 private:
     static const int MAX_COMMANDS = 10; // Maximum number of commands we can store
 
-    // 2. Struct to pair a character with its function pointer
+    // Struct to pair a character with its function pointer
     struct CommandMapping
     {
         char command;
         CommandCallback callback;
     };
 
-    // Array to hold our registered commands
     CommandMapping commands[MAX_COMMANDS];
-    int commandCount = 0; // Keep track of how many commands are currently registered
+    int commandCount = 0;
 
 public:
-    // 3. Method to register a new command binding
     bool createCommand(char commandByte, CommandCallback callbackFunction)
     {
         if (commandCount < MAX_COMMANDS)
@@ -37,8 +33,6 @@ public:
         return false; // Array is full
     }
 
-    // 4. Method to process incoming serial data
-    // You'll need to call this repeatedly in your main loop()
     void process()
     {
         if (Serial.available() > 0)
@@ -57,14 +51,12 @@ public:
             {
                 if (commands[i].command == incomingByte)
                 {
-                    // Match found! Execute the bound function.
-                    // This is where the function pointer is used.
                     commands[i].callback();
                     return; // Stop searching once we found a match
                 }
             }
 
-            // Optional: Print a message if the command is completely unknown
+            // Print a message if the command is completely unknown
             Serial.print("Unknown command: ");
             Serial.println(incomingByte);
         }

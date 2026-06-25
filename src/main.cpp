@@ -10,6 +10,7 @@ DisplayManager display;
 SerialCommandHandler cmdHandler;
 PeripheralController pController;
 
+// --- All of these methods are for debugging via serial --- //
 void increaseSpeed()
 {
     if (testState.speedKmh >= 99.9)
@@ -67,8 +68,9 @@ void toggleLightState()
         Serial.println("Lights OFF");
     }
 }
+// --- Debugging code ends here --- //
 
-// 1. Define the FreeRTOS Task Function
+// Define the FreeRTOS Task Function
 void displayUpdateTask(void *pvParameters)
 {
     // A FreeRTOS task MUST contain an infinite loop.
